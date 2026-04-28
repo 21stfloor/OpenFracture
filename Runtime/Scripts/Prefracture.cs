@@ -32,6 +32,7 @@ public class Prefracture : MonoBehaviour
         }
     }
 
+    
     /// <summary>
     /// Compute the fracture and create the fragments
     /// </summary>

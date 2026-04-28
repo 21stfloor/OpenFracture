@@ -55,7 +55,7 @@ public class UnfreezeFragment : MonoBehaviour
         }
     }
 
-    private void Unfreeze()
+    public void Unfreeze()
     {
         if (this.unfreezeAll)
         {
@@ -77,7 +77,10 @@ public class UnfreezeFragment : MonoBehaviour
 
     private void UnfreezeThis()
     {
-        this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        var rb = this.GetComponent<Rigidbody>();
+        rb.isKinematic = false;
+        rb.constraints = RigidbodyConstraints.None;
+        rb.WakeUp();
         this.isFrozen = false;   
     }
 }
