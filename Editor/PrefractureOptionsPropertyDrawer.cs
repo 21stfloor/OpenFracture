@@ -46,8 +46,20 @@ public class PrefractureOptionsPropertyDrawer : PropertyDrawer
             GUILayout.Space(16);
             if (GUILayout.Button("Prefracture Mesh", new GUILayoutOption[] { GUILayout.ExpandWidth(true), GUILayout.Height(32) }))
             {
-                ((Prefracture)property.serializedObject.targetObject).ComputeFracture();
+                // Record the state for Undo functionality
+                Undo.RecordObjects(property.serializedObject.targetObjects, "Prefracture Multiple Meshes");
+
+                // Loop through all selected objects associated with this serialized property
+                foreach (var target in property.serializedObject.targetObjects)
+                {
+                    Prefracture prefractureComponent = target as Prefracture;
+                    if (prefractureComponent != null)
+                    {
+                        prefractureComponent.ComputeFracture();
+                    }
+                }
             }
+
             GUILayout.Space(16);
             EditorGUILayout.EndHorizontal();
             GUILayout.Space(4);
