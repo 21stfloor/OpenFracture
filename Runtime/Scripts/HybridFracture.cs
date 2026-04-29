@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class HybridFracture: Prefracture
-{	
+{
+	public UnityEvent OnActivated;
 	void OnTriggerEnter(Collider collider)
 	{
 		if (triggerOptions.triggerType == TriggerType.Trigger)
@@ -32,5 +34,7 @@ public class HybridFracture: Prefracture
 			var firstRigidbody = GetComponent<Rigidbody>();
 			firstRigidbody.AddExplosionForce(2f, hitPoint, 2f);
 		}
-	}
+		OnActivated?.Invoke();
+
+    }
 }
