@@ -53,13 +53,15 @@ public class Fracture : MonoBehaviour
     {
         if (this.transform.parent != null)
         {
-            // When an object is fractured, the fragments are created as children of that object's parent.
-            // Because of this, they inherit the parent transform. If the parent transform is not scaled
-            // the same in all axes, the fragments will not be rendered correctly.
             var scale = this.transform.parent.localScale;
-            if ((scale.x != scale.y) || (scale.x != scale.z) || (scale.y != scale.z))
+
+            // Mathf.Approximately checks if two floats are within a tiny margin of error
+            bool isUniform = Mathf.Approximately(scale.x, scale.y) &&
+                             Mathf.Approximately(scale.y, scale.z);
+
+            if (!isUniform)
             {
-                Debug.LogWarning($"Warning: Parent transform of fractured object must be uniformly scaled in all axes or fragments will not render correctly.", this.transform);
+                Debug.LogWarning($"Warning: Parent transform of fractured object must be uniformly scaled.", this.transform);
             }
         }
     }
