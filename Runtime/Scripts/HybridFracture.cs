@@ -19,22 +19,23 @@ public class HybridFracture: Prefracture
 		}
 	}
 
-	public void ActivatePrefractured(Vector3 hitPoint)
-	{
-		var fracturedCopy = transform.parent.Find($"{gameObject.name}Fragments");
-		if (fracturedCopy != null)
-		{
-			fracturedCopy.gameObject.SetActive(true);
-			gameObject.SetActive(false);
-			var fragment = fracturedCopy.GetComponentInChildren<UnfreezeFragment>();
-			if(fragment != null)
-			{
+    public void ActivatePrefractured(Vector3 hitPoint)
+    {
+        var fracturedCopy = transform.parent.Find($"{gameObject.name}Fragments");
+        if (fracturedCopy != null)
+        {
+            fracturedCopy.gameObject.SetActive(true);
+            fracturedCopy.transform.SetParent(null, true);
+            gameObject.SetActive(false);
+            var fragment = fracturedCopy.GetComponentInChildren<UnfreezeFragment>();
+            if (fragment != null)
+            {
                 fragment.Unfreeze();
-			}
-			var firstRigidbody = GetComponent<Rigidbody>();
-			firstRigidbody.AddExplosionForce(2f, hitPoint, 2f);
-		}
-		OnActivated?.Invoke();
+            }
+            var firstRigidbody = GetComponent<Rigidbody>();
+            firstRigidbody.AddExplosionForce(2f, hitPoint, 2f);
+        }
+        OnActivated?.Invoke();
 
     }
 }
